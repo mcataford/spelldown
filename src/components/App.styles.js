@@ -6,42 +6,44 @@ export const Container = styled.div`
     align-items: center;
     flex-direction: column;
     font-family: 'Raleway', sans-serif;
+    width: 300px;
+    margin: 0 auto;
+
+    @media (max-width: 600px) {
+        width: 80%;
+    }
 `
 
 export const ClickableGrid = styled.div`
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows:1fr 1fr 1fr;
+    grid-gap: 5px;
     flex-wrap: wrap;
-    width: 300px;
     margin-bottom: 20px;
+    width: 100%;
 `
 
 export const ClickableBox = styled.div`
-    &:nth-child(4) {
-        margin: 0 100px;
-    }
 
     transition: 0.5s;
-    width: calc(100px - 4px);
-    height: calc(100px - 4px);
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 2px solid transparent;
     border-radius: 10px;
     font-size: 1.5em;
+    height: 100px;
 
     ${props =>
         props.isSelected &&
         css`
             font-weight: bold;
-            border: 2px solid #8ad9ff;
             background-color: #8ad9ff;
         `}
 
     ${props =>
         props.isRequired &&
         css`
-            border: 2px solid #0072ff;
             background-color: #0072ff;
         `}
 `
@@ -52,7 +54,6 @@ export const Title = styled.h1`
 `
 
 export const InstructionsLabel = styled.aside`
-    width: 300px;
     margin-bottom: 20px;
     text-align: center;
 `
@@ -60,11 +61,10 @@ export const InstructionsLabel = styled.aside`
 export const SubmittedAnswersBox = styled.section`
     display: flex;
     flex-wrap: wrap;
-    width: 300px;
 `
 
 export const Answer = styled.span`
-    width: calc(90px);
+    flex: 1 0 calc(100% / 3 - 10px);
     margin: 5px;
 `
 
