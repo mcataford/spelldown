@@ -9,7 +9,7 @@ export const Container = styled.div`
     width: 300px;
     margin: 0 auto;
 
-    @media (max-width: 600px) {
+    @media (max-width: 768px) {
         width: 80%;
     }
 `
@@ -25,7 +25,6 @@ export const ClickableGrid = styled.div`
 `
 
 export const ClickableBox = styled.div`
-
     transition: 0.5s;
     display: flex;
     justify-content: center;
@@ -33,6 +32,10 @@ export const ClickableBox = styled.div`
     border-radius: 10px;
     font-size: 1.5em;
     height: 100px;
+
+    &:nth-child(4) {
+        grid-column: span 3;
+    }
 
     ${props =>
         props.isSelected &&
