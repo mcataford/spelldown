@@ -1,0 +1,4 @@
+virtualenv spelldown.venv --python=python3
+source spelldown.venv/bin/activate
+pip install -r notebook_requirements.txt
+jupyter notebook puzzle_generation.ipynb
