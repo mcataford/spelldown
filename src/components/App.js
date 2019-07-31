@@ -21,7 +21,7 @@ import {
     ClickableGrid,
     ClickableBox,
 } from './App.styles'
-import WordInput from './WordInput'
+import Word from './Word'
 
 const instructions = (
     <InstructionsLabel>
@@ -32,33 +32,56 @@ const instructions = (
     </InstructionsLabel>
 )
 
+const shouldCaptureKeypress = event => {
+    const isSpecialKey = event.ctrlKey || event.metaKey
+    const keyValue = event.key.toLowerCase()
+
+    return (
+        !isSpecialKey &&
+        (['enter', 'backspace'].includes(keyValue) ||
+            (keyValue.length === 1 && keyValue >= 'a' && keyValue <= 'z'))
+    )
+}
+
 const App = props => {
-    const [selected, setSelected] = useState(new Set())
+    const [currentWord, setCurrentWord] = useState('')
+
+    const handleKeypress = event => {
+        const key = event.key.toLowerCase()
+
+        if (!shouldCaptureKeypress(event)) return
+
+        event.preventDefault()
+
+        if (key.length === 1 && key >= 'a' && key <= 'z') {
+            setCurrentWord(currentWord + key.toUpperCase())
+        } else if (key === 'enter') {
+            props.submitAnswer(currentWord)
+            setCurrentWord('')
+        } else if (key === 'backspace') {
+            setCurrentWord(currentWord.slice(0, -1))
+        }
+    }
 
     useEffect(() => {
         if (!props.isAppLoaded) props.initializePuzzle()
+
+        window.addEventListener('keydown', handleKeypress)
+
+        return () => {
+            window.removeEventListener('keydown', handleKeypress)
+        }
     })
 
     const boxes = props.availableLetters.split('').map(letter => (
         <ClickableBox
             key={letter}
             isRequired={props.requiredLetter === letter}
-            isSelected={selected.has(letter.toLowerCase())}
+            isSelected={currentWord.includes(letter.toLowerCase())}
         >
             {letter}
         </ClickableBox>
     ))
-
-    const onInputChange = value => {
-        setSelected(new Set(value.toLowerCase()))
-    }
-
-    const onKeyPress = value => {
-        if (props.possibleWords.includes(value.toUpperCase())) {
-            setSelected(new Set())
-            props.submitAnswer(value)
-        }
-    }
 
     const submittedAnswers = props.submittedAnswers.map(word => (
         <Answer key={word}>{word}</Answer>
@@ -77,7 +100,11 @@ const App = props => {
         <Container>
             <Title>Spelldown</Title>
             {instructions}
-            <WordInput onChange={onInputChange} onKeyPress={onKeyPress} />
+            <Word
+                allowedLetters={props.availableLetters}
+                requiredLetter={props.requiredLetter}
+                word={currentWord}
+            />
             <ClickableGrid>{boxes}</ClickableGrid>
             {submissionCounter}
             <SubmittedAnswersBox>{submittedAnswers}</SubmittedAnswersBox>
