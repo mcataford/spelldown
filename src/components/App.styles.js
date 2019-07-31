@@ -1,5 +1,7 @@
 import styled, { css } from 'styled-components'
 
+import { Colors } from '../constants'
+
 export const Container = styled.div`
     display: flex;
     justify-content: center;
@@ -17,7 +19,7 @@ export const Container = styled.div`
 export const ClickableGrid = styled.div`
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows:1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
     grid-gap: 5px;
     flex-wrap: wrap;
     margin-bottom: 20px;
@@ -41,13 +43,13 @@ export const ClickableBox = styled.div`
         props.isSelected &&
         css`
             font-weight: bold;
-            background-color: #8ad9ff;
+            background-color: ${Colors.SELECTED_LETTER};
         `}
 
     ${props =>
         props.isRequired &&
         css`
-            background-color: #0072ff;
+            background-color: ${Colors.REQUIRED_LETTER};
         `}
 `
 

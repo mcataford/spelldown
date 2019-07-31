@@ -1,16 +1,7 @@
-function getValueFromState(state, key, defaultValue = null) {
-    if (!state[key]) return defaultValue
-
-    return state[key]
-}
-
-export const availableLettersSelector = state =>
-    getValueFromState(state, 'letters', '')
-export const requiredLetterSelector = state =>
-    getValueFromState(state, 'requiredLetter', '')
-export const isAppLoadedSelector = state =>
-    getValueFromState(state, 'appLoaded', false)
+export const availableLettersSelector = state => state.get('letters', '')
+export const requiredLetterSelector = state => state.get('requiredLetter', '')
+export const isAppLoadedSelector = state => state.get('appLoaded', false)
 export const submittedAnswersSelector = state =>
-    getValueFromState(state, 'submittedAnswers', [])
+    state.get('submittedAnswers', [])
 export const possibleWordsSelector = state =>
-    getValueFromState(state, 'possibleWords', new Set())
+    state.get('possibleWords', new Set())
