@@ -1,18 +1,23 @@
+import Immutable from 'immutable'
+
 import {
     SUBMIT_ANSWER,
     INITIALIZE_PUZZLE,
     DICTIONARY_LOADED_SUCCESS,
     DICTIONARY_LOADED_FAILURE,
+    SUBMIT_ANSWER_CORRECT,
+    SUBMIT_ANSWER_INCORRECT,
 } from './actions'
 
-const defaultState = {
+const defaultState = Immutable.fromJS({
     appLoaded: false,
     hasErrored: false,
+    isVerifyingAnswer: false,
     letters: '',
     requiredLetter: '',
     possibleWords: [],
     submittedAnswers: [],
-}
+})
 
 function preparePuzzle(puzzles) {
     const puzzleKeys = Object.keys(puzzles)
@@ -37,26 +42,29 @@ export default (state = defaultState, action) => {
         case INITIALIZE_PUZZLE:
             return state
         case DICTIONARY_LOADED_SUCCESS:
-            return {
-                ...state,
+            return state.merge({
                 ...preparePuzzle(payload),
                 appLoaded: true,
-            }
+            })
         case DICTIONARY_LOADED_FAILURE:
-            return {
-                ...state,
+            return state.merge({
                 hasErrored: true,
-            }
-        case SUBMIT_ANSWER: {
-            const previousSubmissions = state.submittedAnswers
-                ? state.submittedAnswers
-                : []
-            previousSubmissions.push(payload)
-            return {
-                ...state,
-                submittedAnswers: previousSubmissions,
-            }
-        }
+            })
+        case SUBMIT_ANSWER:
+            return state.merge({
+                isVerifyingAnswer: true,
+            })
+        case SUBMIT_ANSWER_CORRECT:
+            return state.merge({
+                isVerifyingAnswer: false,
+                submittedAnswers: state
+                    .get('submittedAnswers', [])
+                    .concat(payload),
+            })
+        case SUBMIT_ANSWER_INCORRECT:
+            return state.merge({
+                isVerifyingAnswer: false,
+            })
         default:
             return state
     }
