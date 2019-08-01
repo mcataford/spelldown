@@ -29,6 +29,7 @@ export const submitAnswerCorrect = payload => ({
     payload,
 })
 
-export const submitAnswerIncorrect = () => ({
+export const submitAnswerIncorrect = payload => ({
     type: SUBMIT_ANSWER_INCORRECT,
+    payload,
 })

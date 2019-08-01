@@ -3,7 +3,8 @@ import Immutable from 'immutable'
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
-import { initializePuzzleSaga, verifyAnswerSaga } from './sagas'
+import initializePuzzleSaga from './initializePuzzle.sagas'
+import verifyAnswerSaga from './verifyAnswer.sagas'
 import reducer from './reducer'
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
@@ -15,7 +16,10 @@ const store = createStore(
     composeEnhancers(applyMiddleware(sagaMiddleware)),
 )
 
-sagaMiddleware.run(initializePuzzleSaga)
-sagaMiddleware.run(verifyAnswerSaga)
+const sagas = [initializePuzzleSaga, verifyAnswerSaga]
+
+sagas.forEach(saga => {
+    sagaMiddleware.run(saga)
+})
 
 export default store
