@@ -16,11 +16,10 @@ const store = createStore(
     composeEnhancers(applyMiddleware(sagaMiddleware)),
 )
 
-const sagas = [
-    initializePuzzleSaga,
-    verifyAnswerSaga,
-]
+const sagas = [initializePuzzleSaga, verifyAnswerSaga]
 
-sagas.forEach(saga => { sagaMiddleware.run(saga) })
+sagas.forEach(saga => {
+    sagaMiddleware.run(saga)
+})
 
 export default store

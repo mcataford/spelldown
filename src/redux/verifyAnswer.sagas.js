@@ -1,6 +1,10 @@
 import { select, put, takeEvery } from 'redux-saga/effects'
 
-import { submitAnswerCorrect, submitAnswerIncorrect, SUBMIT_ANSWER } from './actions'
+import {
+    submitAnswerCorrect,
+    submitAnswerIncorrect,
+    SUBMIT_ANSWER,
+} from './actions'
 import { possibleWordsSelector, submittedAnswersSelector } from './selectors'
 import { incorrectSubmissionReasons } from '../constants'
 

@@ -3,3 +3,9 @@ export const Colors = {
     REQUIRED_LETTER: '#0072ff',
     FORBIDDEN_LETTER: '#000',
 }
+
+export const incorrectSubmissionReasons = {
+    ALREADY_SUBMITTED: 'alreadySubmitted',
+    NOT_A_WORD: 'notAWord',
+    ERROR: 'error',
+}
