@@ -12,16 +12,16 @@ import {
 import { initializePuzzle, submitAnswer } from '../redux/actions'
 import {
     Strong,
-    SubmissionCounter,
     Answer,
     SubmittedAnswersBox,
     Title,
     Container,
     InstructionsLabel,
-    ClickableGrid,
-    ClickableBox,
 } from './App.styles'
+
 import Word from './Word'
+import LetterGrid from './LetterGrid'
+import SubmissionCounter from './SubmissionCounter'
 
 const instructions = (
     <InstructionsLabel>
@@ -77,32 +77,10 @@ const App = props => {
         }
     })
 
-    const boxes = props.availableLetters.split('').map(letter => (
-        <ClickableBox
-            key={letter}
-            isRequired={props.requiredLetter === letter}
-            isSelected={currentWord.includes(letter.toUpperCase())}
-            onClick={() => {
-                handleBoxClick(letter)
-            }}
-        >
-            {letter}
-        </ClickableBox>
-    ))
-
     const submittedAnswers = props.submittedAnswers.map(word => (
         <Answer key={word}>{word}</Answer>
     ))
 
-    const submissionCounter = (
-        <SubmissionCounter>
-            {`You found `}
-            <Strong>{props.submittedAnswers.length}</Strong>
-            {` out of `}
-            <Strong>{props.possibleWords.length}</Strong>
-            {` possible answers.`}
-        </SubmissionCounter>
-    )
     return (
         <Container>
             <Title>Spelldown</Title>
@@ -112,8 +90,16 @@ const App = props => {
                 requiredLetter={props.requiredLetter}
                 word={currentWord}
             />
-            <ClickableGrid>{boxes}</ClickableGrid>
-            {submissionCounter}
+            <LetterGrid
+                availableLetters={props.availableLetters}
+                requiredLetter={props.requiredLetter}
+                currentWord={currentWord}
+                onClick={handleBoxClick}
+            />
+            <SubmissionCounter
+                correctAnswers={props.submittedAnswers.length}
+                totalAnswers={props.possibleWords.length}
+            />
             <SubmittedAnswersBox>{submittedAnswers}</SubmittedAnswersBox>
         </Container>
     )
