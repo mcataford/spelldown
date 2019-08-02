@@ -30,6 +30,7 @@ import Word from './Word'
 import LetterGrid from './LetterGrid'
 import SubmissionCounter from './SubmissionCounter'
 import InstructionsModal from './InstructionsModal'
+import ButtonBar from './ButtonBar'
 
 const shouldCaptureKeypress = event => {
     const isSpecialKey = event.ctrlKey || event.metaKey
@@ -45,6 +46,11 @@ const shouldCaptureKeypress = event => {
 const App = props => {
     const [currentWord, setCurrentWord] = useState('')
 
+    const handleSubmitAnswer = () => {
+        props.submitAnswer(currentWord)
+        setCurrentWord('')
+    }
+
     const handleKeypress = event => {
         const key = event.key.toLowerCase()
 
@@ -55,8 +61,7 @@ const App = props => {
         if (key.length === 1 && key >= 'a' && key <= 'z') {
             setCurrentWord(currentWord + key.toUpperCase())
         } else if (key === 'enter') {
-            props.submitAnswer(currentWord)
-            setCurrentWord('')
+            handleSubmitAnswer()
         } else if (key === 'backspace') {
             setCurrentWord(currentWord.slice(0, -1))
         }
@@ -114,6 +119,12 @@ const App = props => {
                     requiredLetter={props.requiredLetter}
                     currentWord={currentWord}
                     onClick={handleBoxClick}
+                />
+                <ButtonBar
+                    onResetClick={() => {
+                        setCurrentWord('')
+                    }}
+                    onSubmitClick={handleSubmitAnswer}
                 />
                 <SubmissionCounter
                     correctAnswers={props.submittedAnswers.length}
