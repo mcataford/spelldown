@@ -8,8 +8,14 @@ import {
     requiredLetterSelector,
     isAppLoadedSelector,
     submittedAnswersSelector,
+    isInstructionsModalVisibleSelector,
 } from '../redux/selectors'
-import { initializePuzzle, submitAnswer } from '../redux/actions'
+import {
+    initializePuzzle,
+    submitAnswer,
+    showInstructionsModal,
+    hideInstructionsModal,
+} from '../redux/actions'
 import {
     Strong,
     Answer,
@@ -17,20 +23,13 @@ import {
     Title,
     Container,
     InstructionsLabel,
+    RulesButton,
 } from './App.styles'
 
 import Word from './Word'
 import LetterGrid from './LetterGrid'
 import SubmissionCounter from './SubmissionCounter'
-
-const instructions = (
-    <InstructionsLabel>
-        <Strong>Spelldown</Strong> is a very simple game: you are given{' '}
-        <Strong>7 letters</Strong> and must build as many words as possible from
-        them. <Strong>One letter</Strong>, however, is special and needs to be
-        used in all the words you submit.
-    </InstructionsLabel>
-)
+import InstructionsModal from './InstructionsModal'
 
 const shouldCaptureKeypress = event => {
     const isSpecialKey = event.ctrlKey || event.metaKey
@@ -81,27 +80,49 @@ const App = props => {
         <Answer key={word}>{word}</Answer>
     ))
 
+    const instructions = (
+        <InstructionsLabel>
+            <p>
+                <Strong>Spelldown</Strong> is a very simple game: you are given{' '}
+                <Strong>7 letters</Strong> and must build as many words as
+                possible from them. <Strong>One letter</Strong>, however, is
+                special and needs to be used in all the words you submit.
+            </p>
+            <p>
+                <RulesButton onClick={props.showInstructionsModal}>
+                    How do I play?
+                </RulesButton>
+            </p>
+        </InstructionsLabel>
+    )
+    const instructionsModal = props.isInstructionsModalVisible ? (
+        <InstructionsModal onClose={props.hideInstructionsModal} />
+    ) : null
+
     return (
-        <Container>
-            <Title>Spelldown</Title>
-            {instructions}
-            <Word
-                allowedLetters={props.availableLetters}
-                requiredLetter={props.requiredLetter}
-                word={currentWord}
-            />
-            <LetterGrid
-                availableLetters={props.availableLetters}
-                requiredLetter={props.requiredLetter}
-                currentWord={currentWord}
-                onClick={handleBoxClick}
-            />
-            <SubmissionCounter
-                correctAnswers={props.submittedAnswers.length}
-                totalAnswers={props.possibleWords.length}
-            />
-            <SubmittedAnswersBox>{submittedAnswers}</SubmittedAnswersBox>
-        </Container>
+        <React.Fragment>
+            <Container>
+                <Title>Spelldown</Title>
+                {instructions}
+                <Word
+                    allowedLetters={props.availableLetters}
+                    requiredLetter={props.requiredLetter}
+                    word={currentWord}
+                />
+                <LetterGrid
+                    availableLetters={props.availableLetters}
+                    requiredLetter={props.requiredLetter}
+                    currentWord={currentWord}
+                    onClick={handleBoxClick}
+                />
+                <SubmissionCounter
+                    correctAnswers={props.submittedAnswers.length}
+                    totalAnswers={props.possibleWords.length}
+                />
+                <SubmittedAnswersBox>{submittedAnswers}</SubmittedAnswersBox>
+            </Container>
+            {instructionsModal}
+        </React.Fragment>
     )
 }
 
@@ -113,11 +134,16 @@ App.propTypes = {
     isAppLoaded: PropTypes.bool.isRequired,
     submittedAnswers: PropTypes.array.isRequired,
     possibleWords: PropTypes.array.isRequired,
+    isInstructionsModalVisible: PropTypes.bool.isRequired,
+    showInstructionsModal: PropTypes.func.isRequired,
+    hideInstructionsModal: PropTypes.func.isRequired,
 }
 
 const mapDispatchToProps = {
     initializePuzzle,
     submitAnswer,
+    showInstructionsModal,
+    hideInstructionsModal,
 }
 
 const mapStateToProps = state => ({
@@ -126,6 +152,7 @@ const mapStateToProps = state => ({
     isAppLoaded: isAppLoadedSelector(state),
     submittedAnswers: submittedAnswersSelector(state),
     possibleWords: possibleWordsSelector(state),
+    isInstructionsModalVisible: isInstructionsModalVisibleSelector(state),
 })
 
 export default connect(

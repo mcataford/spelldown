@@ -7,6 +7,8 @@ import {
     DICTIONARY_LOADED_FAILURE,
     SUBMIT_ANSWER_CORRECT,
     SUBMIT_ANSWER_INCORRECT,
+    SHOW_INSTRUCTIONS_MODAL,
+    HIDE_INSTRUCTIONS_MODAL,
 } from './actions'
 
 const defaultState = Immutable.fromJS({
@@ -17,6 +19,7 @@ const defaultState = Immutable.fromJS({
     requiredLetter: '',
     possibleWords: [],
     submittedAnswers: [],
+    isInstructionsModalVisible: false,
 })
 
 function preparePuzzle(puzzles) {
@@ -64,6 +67,14 @@ export default (state = defaultState, action) => {
         case SUBMIT_ANSWER_INCORRECT:
             return state.merge({
                 isVerifyingAnswer: false,
+            })
+        case SHOW_INSTRUCTIONS_MODAL:
+            return state.merge({
+                isInstructionsModalVisible: true,
+            })
+        case HIDE_INSTRUCTIONS_MODAL:
+            return state.merge({
+                isInstructionsModalVisible: false,
             })
         default:
             return state
