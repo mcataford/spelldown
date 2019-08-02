@@ -4,6 +4,8 @@ export const DICTIONARY_LOADED_FAILURE = 'dictionaryLoadedFailure'
 export const SUBMIT_ANSWER = 'submitAnswer'
 export const SUBMIT_ANSWER_CORRECT = 'submitAnswerCorrect'
 export const SUBMIT_ANSWER_INCORRECT = 'submitAnswerIncorrect'
+export const SHOW_INSTRUCTIONS_MODAL = 'showInstructionsModal'
+export const HIDE_INSTRUCTIONS_MODAL = 'hideInstructionsModal'
 
 export const initializePuzzle = () => ({
     type: INITIALIZE_PUZZLE,
@@ -32,4 +34,12 @@ export const submitAnswerCorrect = payload => ({
 export const submitAnswerIncorrect = payload => ({
     type: SUBMIT_ANSWER_INCORRECT,
     payload,
+})
+
+export const showInstructionsModal = () => ({
+    type: SHOW_INSTRUCTIONS_MODAL,
+})
+
+export const hideInstructionsModal = () => ({
+    type: HIDE_INSTRUCTIONS_MODAL,
 })

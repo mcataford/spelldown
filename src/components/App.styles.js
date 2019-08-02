@@ -37,3 +37,10 @@ export const Answer = styled.span`
 export const Strong = styled.strong`
     font-size: 1.4em;
 `
+
+export const RulesButton = styled.span`
+    font-size: 1.4em;
+    font-weight: bold;
+    cursor: pointer;
+    text-decoration: underline;
+`

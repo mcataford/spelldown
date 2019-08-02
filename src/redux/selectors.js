@@ -5,3 +5,5 @@ export const submittedAnswersSelector = state =>
     state.get('submittedAnswers', [])
 export const possibleWordsSelector = state =>
     state.get('possibleWords', new Set())
+export const isInstructionsModalVisibleSelector = state =>
+    state.get('isInstructionsModalVisible', false)
