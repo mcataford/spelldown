@@ -63,6 +63,10 @@ const App = props => {
         }
     }
 
+    const handleBoxClick = letter => {
+        setCurrentWord(currentWord + letter.toUpperCase())
+    }
+
     useEffect(() => {
         if (!props.isAppLoaded) props.initializePuzzle()
 
@@ -77,7 +81,10 @@ const App = props => {
         <ClickableBox
             key={letter}
             isRequired={props.requiredLetter === letter}
-            isSelected={currentWord.includes(letter.toLowerCase())}
+            isSelected={currentWord.includes(letter.toUpperCase())}
+            onClick={() => {
+                handleBoxClick(letter)
+            }}
         >
             {letter}
         </ClickableBox>

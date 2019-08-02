@@ -26,6 +26,11 @@ export const ClickableGrid = styled.div`
     width: 100%;
 `
 
+const selected = css`
+    font-weight: bold;
+    background-color: ${Colors.SELECTED_LETTER};
+`
+
 export const ClickableBox = styled.div`
     transition: 0.5s;
     display: flex;
@@ -34,17 +39,17 @@ export const ClickableBox = styled.div`
     border-radius: 10px;
     font-size: 1.5em;
     height: 100px;
+    cursor: pointer;
 
     &:nth-child(4) {
         grid-column: span 3;
     }
 
-    ${props =>
-        props.isSelected &&
-        css`
-            font-weight: bold;
-            background-color: ${Colors.SELECTED_LETTER};
-        `}
+    &:hover {
+        ${selected}
+    }
+
+    ${props => props.isSelected && selected}
 
     ${props =>
         props.isRequired &&
